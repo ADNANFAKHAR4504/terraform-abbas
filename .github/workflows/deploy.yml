@@ -28,11 +28,19 @@ jobs:
       - name: Initialize Terraform
         run: terraform init
 
+      - name: Debug Environment Variables
+        env:
+          ami: ${{ vars.AMI }}
+          instance_type: ${{ vars.INSTANCE_TYPE }}
+        run: |
+          echo "AMI: $ami"
+          echo "INSTANCE_TYPE: $instance_type"
+
       - name: Terraform Plan
         env:
           ami: ${{ vars.AMI }}
           instance_type: ${{ vars.INSTANCE_TYPE }}
-        run: terraform plan -var="ami=$AMI" -var="instance_type=$INSTANCE_TYPE" -out=tfplan
+        run: terraform plan -var="ami=$ami" -var="instance_type=$instance_type" -out=tfplan
 
       - name: Terraform Apply
         env:
