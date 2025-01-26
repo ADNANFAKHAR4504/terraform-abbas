@@ -29,7 +29,13 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        env:
+          ami: ${{ vars.AMI }}
+          instance_type: ${{ vars.INSTANCE_TYPE }}
+        run: terraform plan -var="ami=$AMI" -var="instance_type=$INSTANCE_TYPE" -out=tfplan
 
       - name: Terraform Apply
+        env:
+          ami: ${{ vars.AMI }}
+          instance_type: ${{ vars.INSTANCE_TYPE }}
         run: terraform apply -auto-approve tfplan
